@@ -1,0 +1,3 @@
+GET http://localhost:5000/api/users/profile
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYwOTAwNDMsImV4cCI6MTY2NjA5MDEwM30.ucE2Odo77vZG7UcbnaLotSVkUp0dPvK-wF0GFk81XK4

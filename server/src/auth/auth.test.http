@@ -1,0 +1,24 @@
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "username":"abc3",
+  "password":"123"
+}
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "username":"abc3",
+  "password":"123"
+}
+###
+POST http://localhost:5000/api/auth/refresh
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYwOTAwNDMsImV4cCI6MTY2NjA5MDEwM30.ucE2Odo77vZG7UcbnaLotSVkUp0dPvK-wF0GFk81XK4
+
+{
+  "refreshToken":"BDCEXXDJrEDLkCvJZYOJfeQCauZLmwdOMWBk2UWVmPLDJGJTK74WpQ98WotRZiDvdpWHIuxiIgd8tnLtf8mAzkJKLlWW71zsVY7G"
+}
