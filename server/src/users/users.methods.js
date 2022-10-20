@@ -31,3 +31,24 @@ exports.updateToken = async (username, token) => {
     return false;
   }
 };
+
+exports.getRoles = async (username) => {
+  try {
+    const user = await UserModel.findOne({ username });
+    if (user) return user.roles;
+    return null;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+exports.updateRoles = async (username, roles) => {
+  try {
+    const filter = { username: username };
+    await UserModel.findOneAndUpdate(filter, roles);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};

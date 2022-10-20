@@ -1,0 +1,34 @@
+###
+GET  http://localhost:5000/api/role
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyMzY5NjgsImV4cCI6MTY2NjIzNzU2OH0.Sysw6UuDOFJoymILm27FWYiQ9UGChYK4ma0y08eLyZY
+
+###
+GET  http://localhost:5000/api/role/user1
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyMzY5NjgsImV4cCI6MTY2NjIzNzU2OH0.Sysw6UuDOFJoymILm27FWYiQ9UGChYK4ma0y08eLyZY
+
+###
+POST http://localhost:5000/api/role/create
+Content-Type: application/json
+
+
+{
+  "keyword":"manager",
+  "name":"Manager Role"
+}
+
+
+###
+PUT http://localhost:5000/api/role/user
+Content-Type: application/json
+
+
+{
+  "keyword":"user",
+  "name":"User Role"
+}
+
+###
+DELETE http://localhost:5000/api/role/user
+Content-Type: application/json
+
+

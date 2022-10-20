@@ -1,0 +1,40 @@
+GET http://localhost:5000/api/equipment
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+
+###
+GET http://localhost:5000/api/equipment/6350fc110ac04c4657f321f4
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+###
+GET http://localhost:5000/api/equipment/getByUser/user3
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+###
+POST http://localhost:5000/api/equipment/create
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTMyMDcsImV4cCI6MTY2NjI1MzgwN30.AlZEB65VMig2xKuoyvy2BPcRAlYC3HhM5LMfM66a3vA
+
+
+{
+  "name": "23LCD4038",
+  "type": "monitor",
+  "status": "empty"
+}
+
+###
+PUT http://localhost:5000/api/equipment/635102135aea2c48753fadea
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTM4ODksImV4cCI6MTY2NjI1NDQ4OX0.G5lB4jZ11VpUtFz-bu9RC3i1i9FJeUI2IPy-a4BgyLE
+
+{
+  "name": "23LCD4038",
+  "type": "monitor",
+  "status": "fail"
+}
+###
+DELETE http://localhost:5000/api/equipment/6350fcd83e4f78942c204231
+Content-Type: application/json
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+
+
