@@ -10,37 +10,30 @@ exports.getAll = async () => {
 };
 exports.getEquipment = async (equipmentId) => {
   try {
-    return await EquipmentModel.findOne({ _id: equipmentId });
+    return await EquipmentModel.findOne({ _id: equipmentId }).populate('user');
   } catch (error) {
     return null;
   }
 };
 exports.getEquipmentByUserId = async (userId) => {
   try {
-    return await EquipmentModel.findOne({ user: userId });
+    return await EquipmentModel.findOne({ user: userId }).populate('user');
   } catch (error) {
     return null;
   }
 };
-exports.create = async (reqEquipment) => {
+exports.create = async (reqEquipment, user) => {
   try {
-    let newEquipment;
+    const newEquipment = new EquipmentModel({
+      name: reqEquipment.name,
+      type: reqEquipment.type,
+      status: reqEquipment.status,
+      description: reqEquipment.description,
+      createBy: user._id,
+    });
     if (reqEquipment.user) {
       const user = await UserModel.findOne({ username: reqEquipment.user });
-      newEquipment = new EquipmentModel({
-        name: reqEquipment.name,
-        type: reqEquipment.type,
-        status: reqEquipment.status,
-        description: reqEquipment.description,
-        user: user._id,
-      });
-    } else {
-      newEquipment = new EquipmentModel({
-        name: reqEquipment.name,
-        type: reqEquipment.type,
-        status: reqEquipment.status,
-        description: reqEquipment.description,
-      });
+      newEquipment.user = user._id;
     }
     await newEquipment.save();
     return newEquipment;
@@ -48,13 +41,18 @@ exports.create = async (reqEquipment) => {
     return null;
   }
 };
-exports.update = async (equipmentId, reqEquipment) => {
+exports.update = async (equipmentId, reqEquipment, user) => {
   try {
     const filter = { _id: equipmentId };
-    reqEquipment.modifyBy = req.user._id;
+    reqEquipment.modifyBy = user._id;
     reqEquipment.modifyAt = Date.now();
+    if (reqEquipment.user) {
+      const user = await UserModel.findOne({ username: reqEquipment.user });
+      if (!user) return false;
+      reqEquipment.user = user._id;
+    }
     await EquipmentModel.findOneAndUpdate(filter, reqEquipment);
-    return true;
+    return await EquipmentModel.findOne({ _id: equipmentId }).populate('user');
   } catch (error) {
     return false;
   }

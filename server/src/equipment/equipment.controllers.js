@@ -27,7 +27,8 @@ exports.getByUserId = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const reqEquipment = req.body;
-    const equipment = await equipmentMethod.create(reqEquipment);
+    const user = req.user;
+    const equipment = await equipmentMethod.create(reqEquipment, user);
     if (!equipment)
       return res.status(400).send('Creating Equipment is not completed!');
     return res.send(equipment);
@@ -39,7 +40,12 @@ exports.update = async (req, res) => {
   try {
     const equipmentId = req.params.equipmentId;
     const reqEquipment = req.body;
-    const equipment = await equipmentMethod.update(equipmentId, reqEquipment);
+    const user = req.user;
+    const equipment = await equipmentMethod.update(
+      equipmentId,
+      reqEquipment,
+      user,
+    );
     if (!equipment)
       return res.status(400).send('Updating Equipment is not completed!');
     return res.send(equipment);

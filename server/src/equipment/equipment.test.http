@@ -1,15 +1,18 @@
 GET http://localhost:5000/api/equipment
 Content-Type: application/json
-x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNjE3MTMsImV4cCI6MTY2NjI2MjMxM30.Yqxp9hkz5Bj6X-sJZHfIRH0qf7mfeBa4RvCPot9ghBs
 
 ###
-GET http://localhost:5000/api/equipment/6350fc110ac04c4657f321f4
+GET http://localhost:5000/api/equipment/6350fc9619b2ec6783f7f160
 Content-Type: application/json
-x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTkzMzAsImV4cCI6MTY2NjI1OTkzMH0.7ksLc8LHFnE1xTWo5u5LYAm07msVtRIyc0fhxSWL1Ak
+
 ###
-GET http://localhost:5000/api/equipment/getByUser/user3
+GET http://localhost:5000/api/equipment/getByUser/null
 Content-Type: application/json
-x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTI5OTMsImV4cCI6MTY2NjI1MzU5M30.H-ZG190OTznBxbPHU2W84_hfEV_mViNVcGZqym5heSY
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTkzMzAsImV4cCI6MTY2NjI1OTkzMH0.7ksLc8LHFnE1xTWo5u5LYAm07msVtRIyc0fhxSWL1Ak
+
+
 ###
 POST http://localhost:5000/api/equipment/create
 Content-Type: application/json
@@ -25,12 +28,10 @@ x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW
 ###
 PUT http://localhost:5000/api/equipment/635102135aea2c48753fadea
 Content-Type: application/json
-x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNTM4ODksImV4cCI6MTY2NjI1NDQ4OX0.G5lB4jZ11VpUtFz-bu9RC3i1i9FJeUI2IPy-a4BgyLE
+x_authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiYWJjMyJ9LCJpYXQiOjE2NjYyNjE3MTMsImV4cCI6MTY2NjI2MjMxM30.Yqxp9hkz5Bj6X-sJZHfIRH0qf7mfeBa4RvCPot9ghBs
 
 {
-  "name": "23LCD4038",
-  "type": "monitor",
-  "status": "fail"
+  "user":"abc2"
 }
 ###
 DELETE http://localhost:5000/api/equipment/6350fcd83e4f78942c204231
