@@ -69,7 +69,8 @@ exports.login = async (req, res) => {
 };
 
 exports.refreshToken = async (req, res) => {
-  const accessTokenFromHeader = req.headers.x_authorization;
+  const authHeader = req.header('Authorization');
+  const accessTokenFromHeader = authHeader && authHeader.split(' ')[1];
   if (!accessTokenFromHeader) {
     return res.status(400).send('Không tìm thấy access token.');
   }
