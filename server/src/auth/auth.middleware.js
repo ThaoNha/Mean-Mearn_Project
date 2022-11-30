@@ -3,8 +3,8 @@ const userModel = require('../users/users.methods');
 const authMethod = require('./auth.methods');
 
 exports.isAuth = async (req, res, next) => {
-  const authHeader = req.header('Authorization')
-	const accessTokenFromHeader = authHeader && authHeader.split(' ')[1]
+  const authHeader = req.header('Authorization');
+	const accessTokenFromHeader = authHeader && authHeader.split(' ')[1];
   if (!accessTokenFromHeader) {
     return res.status(401).send('Không tìm thấy access token!');
   }

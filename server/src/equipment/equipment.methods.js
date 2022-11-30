@@ -10,7 +10,7 @@ exports.getAll = async () => {
 };
 exports.getEquipment = async (equipmentId) => {
   try {
-    return await EquipmentModel.findOne({ _id: equipmentId }).populate('user');
+    return await EquipmentModel.findOne({ _id: equipmentId }).populate('user').populate('type');
   } catch (error) {
     return null;
   }

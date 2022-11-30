@@ -9,9 +9,9 @@ exports.getRoles = async () => {
   }
 };
 
-exports.getRole = async (keyword) => {
+exports.getRole = async (name) => {
   try {
-    return await RoleModel.findOne({ keyword });
+    return await RoleModel.findOne({ name });
   } catch (error) {
     return null;
   }
@@ -20,8 +20,9 @@ exports.getRole = async (keyword) => {
 exports.create = async (role) => {
   try {
     const newRole = new RoleModel({
-      keyword: role.keyword,
       name: role.name,
+      name: role.name,
+      createBy: user._id,
     });
     const roleResponse = await newRole.save();
     return roleResponse;
@@ -30,19 +31,9 @@ exports.create = async (role) => {
   }
 };
 
-exports.update = async (keyword, role) => {
+exports.delete = async (name) => {
   try {
-      const filter = { keyword: keyword };
-      await RoleModel.findOneAndUpdate(filter, role);
-      return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-exports.delete = async (keyword) => {
-  try {
-    await RoleModel.findOneAndDelete({ keyword });
+    await RoleModel.findOneAndDelete({ name });
     return true;
   } catch (error) {
     return false;

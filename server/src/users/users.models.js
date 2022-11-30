@@ -4,10 +4,9 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   username: { type: String, require: true, unique: true },
   password: { type: String, require: true },
+  role: { type: mongoose.Schema.Types.ObjectId, ref: 'roles' },
   refreshToken: { type: String, default: null },
-  accessToken: { type: String, default: null },
-  createAt: { type: Date, default: Date.now },
-  modifyAt: { type: Date, default: Date.now },
+  status: { type: mongoose.Schema.Types.ObjectId, ref: 'status' },
 });
 
 module.exports = mongoose.model('users', UserSchema);

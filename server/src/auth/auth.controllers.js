@@ -8,7 +8,7 @@ const jwtVariable = require('../../variables/jwt');
 const { SALT_ROUNDS } = require('../../variables/auth');
 
 exports.register = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
   if (!username || !password)
     return res.status(400).send('Hay nhap username and/or password');
   const user = await userMethod.getUser(username);
@@ -18,6 +18,7 @@ exports.register = async (req, res) => {
     const newUser = {
       username: username,
       password: hashPassword,
+      role: role,
     };
     const createUser = await userMethod.createUser(newUser);
     if (!createUser) {
@@ -58,11 +59,11 @@ exports.login = async (req, res) => {
       .send('Đăng nhập không thành công, vui lòng thử lại.');
   }
   await userMethod.updateToken(user.username, {
-    accessToken: accessToken,
     refreshToken: refreshToken,
   });
   return res.json({
     msg: 'Đăng nhập thành công.',
+    username,
     accessToken,
     refreshToken,
   });
@@ -114,7 +115,6 @@ exports.refreshToken = async (req, res) => {
       .send('Tạo access/refresh token không thành công, vui lòng thử lại.');
   }
   await userMethod.updateToken(user.username, {
-    accessToken: accessToken,
     refreshToken: refreshToken,
   });
   return res.json({
