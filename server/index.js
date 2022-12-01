@@ -8,10 +8,12 @@ const cors = require('cors');
 
 dotenv.config();
 
-const authRouter = require('./src/auth/auth.routers');
-const userRouter = require('./src/users/users.routers');
-const roleRouter = require('./src/roles/roles.routers');
-const equipmentRouter = require('./src/equipment/equipment.routers');
+const authRouter = require('./src/auth/auth.routes');
+const userRouter = require('./src/users/users.routes');
+const roleRouter = require('./src/roles/roles.routes');
+const typeRouter = require('./src/type/type.routes');
+const equipmentRouter = require('./src/equipment/equipment.routes');
+const historyRouter = require('./src/loan_history/history.routes');
 
 db.connectDB();
 
@@ -23,7 +25,9 @@ app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/role', roleRouter);
+app.use('/api/type', typeRouter);
 app.use('/api/equipment', equipmentRouter);
+app.use('/api/history', historyRouter);
 
 app.use((req, res, next) => {
   next(createError(404));

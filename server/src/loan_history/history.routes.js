@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const historyController = require('./history.controllers');
+const historyController = require('./history.controller');
 
 const authMiddleware = require('../auth/auth.middleware');
 const isAuth = authMiddleware.isAuth;

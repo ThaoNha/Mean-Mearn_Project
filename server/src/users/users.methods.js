@@ -17,7 +17,7 @@ exports.createUser = async (user) => {
       role = await roleMethod.getRole(user.role);
     }
     const newUser = new UserModel({
-      _id: user._id,
+      id: user.id,
       username: user.username,
       password: user.password,
       role: role._id,
@@ -42,12 +42,18 @@ exports.updateToken = async (username, token) => {
   }
 };
 
-exports.updateUser = async (username, newUser) => {
+exports.updateUser = async (userId, newUser) => {
   try {
-    const filter = { username: username };
+    const filter = { id: userId };
     if (newUser.role) {
       const role = await roleMethod.getRole(newUser.role);
       newUser.role = role._id;
+    }
+    if (newUser.id) {
+      delete newUser.id;
+    }
+    if (newUser.username) {
+      delete newUser.username;
     }
     await UserModel.findOneAndUpdate(filter, newUser);
     return true;

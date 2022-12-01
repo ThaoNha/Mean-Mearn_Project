@@ -9,6 +9,6 @@ router.get('/profile', isAuth, async (req, res) => {
   res.send(req.user);
 });
 
-router.post('/update', isAuth, userController.update);
+router.put('/update', isAuth, userController.update);
 
 module.exports = router;

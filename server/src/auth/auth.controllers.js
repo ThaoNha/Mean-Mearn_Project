@@ -8,7 +8,7 @@ const jwtVariable = require('../../variables/jwt');
 const { SALT_ROUNDS } = require('../../variables/auth');
 
 exports.register = async (req, res) => {
-  const { username, password, role } = req.body;
+  const { id, username, password, role } = req.body;
   if (!username || !password)
     return res.status(400).send('Hay nhap username and/or password');
   const user = await userMethod.getUser(username);
@@ -16,6 +16,7 @@ exports.register = async (req, res) => {
   else {
     const hashPassword = bcrypt.hashSync(password, SALT_ROUNDS);
     const newUser = {
+      id: id,
       username: username,
       password: hashPassword,
       role: role,
