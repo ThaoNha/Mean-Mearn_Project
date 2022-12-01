@@ -21,8 +21,6 @@ exports.create = async (role) => {
   try {
     const newRole = new RoleModel({
       name: role.name,
-      name: role.name,
-      createBy: user._id,
     });
     const roleResponse = await newRole.save();
     return roleResponse;

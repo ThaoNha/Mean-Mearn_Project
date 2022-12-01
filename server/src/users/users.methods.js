@@ -1,10 +1,9 @@
 const UserModel = require('./users.models');
 const roleMethod = require('../roles/roles.methods');
-const statusMethod = require('../status/status.methods');
 
 exports.getUser = async (username) => {
   try {
-    const user = await UserModel.findOne({ username }).populate('roles').populate('status');
+    const user = await UserModel.findOne({ username }).populate('roles');
     return user;
   } catch (error) {
     return null;
@@ -14,18 +13,15 @@ exports.getUser = async (username) => {
 exports.createUser = async (user) => {
   try {
     let role = null;
-    let status = null;
     if (user.role) {
       role = await roleMethod.getRole(user.role);
     }
-    if(user.status){
-      status= await statusMethod.getStatus(user.status);
-    }
     const newUser = new UserModel({
+      _id: user._id,
       username: user.username,
       password: user.password,
       role: role._id,
-      status: status._id,
+      status: user.status,
     });
 
     console.log(newUser);
@@ -52,10 +48,6 @@ exports.updateUser = async (username, newUser) => {
     if (newUser.role) {
       const role = await roleMethod.getRole(newUser.role);
       newUser.role = role._id;
-    }
-    if (newUser.status) {
-      const status = await statusMethod.getRole(newUser.status);
-      newUser.status = status._id;
     }
     await UserModel.findOneAndUpdate(filter, newUser);
     return true;

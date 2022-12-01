@@ -10,7 +10,6 @@ const isAuth = authMiddleware.isAuth;
 
 router.get('', isAuth, equipmentController.getAll);
 router.get('/:equipmentId', isAuth, equipmentController.get);
-router.get('/getByUser/:userId', isAuth, equipmentController.getByUserId);
 router.post('/create', isAuth, equipmentController.create);
 router.put('/:equipmentId', isAuth, equipmentController.update);
 router.delete('/:equipmentId', isAuth, equipmentController.delete);

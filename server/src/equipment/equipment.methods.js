@@ -1,5 +1,4 @@
 const EquipmentModel = require('./equipment.models');
-const UserModel = require('../users/users.models');
 
 exports.getAll = async () => {
   try {
@@ -10,47 +9,30 @@ exports.getAll = async () => {
 };
 exports.getEquipment = async (equipmentId) => {
   try {
-    return await EquipmentModel.findOne({ _id: equipmentId }).populate('user').populate('type');
+    return await EquipmentModel.findOne({ _id: equipmentId }).populate('type');
   } catch (error) {
     return null;
   }
 };
-exports.getEquipmentByUserId = async (userId) => {
-  try {
-    return await EquipmentModel.findOne({ user: userId }).populate('user');
-  } catch (error) {
-    return null;
-  }
-};
-exports.create = async (reqEquipment, user) => {
+
+exports.create = async (reqEquipment) => {
   try {
     const newEquipment = new EquipmentModel({
+      _id: reqEquipment._id,
       name: reqEquipment.name,
       type: reqEquipment.type,
       status: reqEquipment.status,
       description: reqEquipment.description,
-      createBy: user._id,
     });
-    if (reqEquipment.user) {
-      const user = await UserModel.findOne({ username: reqEquipment.user });
-      newEquipment.user = user._id;
-    }
     await newEquipment.save();
     return newEquipment;
   } catch (error) {
     return null;
   }
 };
-exports.update = async (equipmentId, reqEquipment, user) => {
+exports.update = async (equipmentId, reqEquipment) => {
   try {
     const filter = { _id: equipmentId };
-    reqEquipment.modifyBy = user._id;
-    reqEquipment.modifyAt = Date.now();
-    if (reqEquipment.user) {
-      const user = await UserModel.findOne({ username: reqEquipment.user });
-      if (!user) return false;
-      reqEquipment.user = user._id;
-    }
     await EquipmentModel.findOneAndUpdate(filter, reqEquipment);
     return await EquipmentModel.findOne({ _id: equipmentId }).populate('user');
   } catch (error) {
@@ -59,7 +41,9 @@ exports.update = async (equipmentId, reqEquipment, user) => {
 };
 exports.delete = async (equipmentId) => {
   try {
-    await EquipmentModel.findOneAndDelete({ _id: equipmentId });
+    const equipment = await EquipmentModel.findOne({ _id: equipmentId });
+    equipment.status = 'deleted';
+    await update(equipmentId, equipment);
     return true;
   } catch (error) {
     return false;
