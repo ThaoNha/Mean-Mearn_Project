@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "6389803010522b748aab958d"
+  },
+  "id": "M1",
+  "username": "manager",
+  "password": "$2b$10$PrgGICUC/w29UZVM1tXWYO8BxWXhjbsywekihtYrkx08ITgY7Dklu",
+  "role": {
+    "$oid": "63887b7c39a2870563639f73"
+  },
+  "refreshToken": "m2hKL2HxeFZri5fBSuEBQ9z374PXO1XRq1stMZngXWLAMyscHrstQdLFTfw4lYRPobb2C91KgXt01cxeqDsbbiGFpaslAn9FhuvI",
+  "status": "activate",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389807ba96c963d2e85ac7c"
+  },
+  "id": "U1",
+  "username": "user1",
+  "password": "$2b$10$9bNYhWM.lwHGbBC69YvMxORyZc/tf3XXP1jQrlJqy7ipAFDz.mnm2",
+  "role": {
+    "$oid": "63887b6f39a2870563639f71"
+  },
+  "refreshToken": "z37GUhB49P3B1GCt0cUVYoqjK0CqrQ4jcYE2pcWqAI2wUFd97wml1N5Owqhxj5vwWgFTQ7xqmHzSjGLiq1GiqiHouXTorlUl5E92",
+  "status": "activate",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389cae0ef425b870d2560b0"
+  },
+  "id": "U2",
+  "username": "user2",
+  "password": "$2b$10$zEtgtsTjFxT7TBBVdBAurusK2qXypw3TQB.I994IpXpGf8qfaPQAm",
+  "role": {
+    "$oid": "63887b6f39a2870563639f71"
+  },
+  "refreshToken": null,
+  "status": "delete",
+  "__v": 0
+}]

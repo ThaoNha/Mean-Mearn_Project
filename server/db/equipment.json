@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "6389c9a7bebd63b6f7686626"
+  },
+  "id": "ram8g1",
+  "name": "ram1",
+  "type": {
+    "$oid": "6389a6a2658ebcf5e57bfb89"
+  },
+  "description": null,
+  "status": "available",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389c9b0bebd63b6f7686633"
+  },
+  "id": "ram8g2",
+  "name": "ram2",
+  "type": {
+    "$oid": "6389a6a2658ebcf5e57bfb89"
+  },
+  "description": null,
+  "status": "available",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389c9b6bebd63b6f768663a"
+  },
+  "id": "ram8g3",
+  "name": "ram3",
+  "type": {
+    "$oid": "6389a6a2658ebcf5e57bfb89"
+  },
+  "description": null,
+  "status": "available",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389c9cdbebd63b6f7686641"
+  },
+  "id": "cpui712",
+  "name": "cpu1",
+  "type": {
+    "$oid": "63896fcac885a8f70eaa1124"
+  },
+  "description": null,
+  "status": "available",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389c9d3bebd63b6f7686648"
+  },
+  "id": "cpui212",
+  "name": "cpu2",
+  "type": {
+    "$oid": "63896fcac885a8f70eaa1124"
+  },
+  "description": null,
+  "status": "deleted",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6389c9ebbebd63b6f768664f"
+  },
+  "id": "cpui312",
+  "name": "cpu3",
+  "type": {
+    "$oid": "63896fcac885a8f70eaa1124"
+  },
+  "description": null,
+  "status": "available",
+  "__v": 0
+}]
