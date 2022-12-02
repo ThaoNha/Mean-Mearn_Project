@@ -9,10 +9,20 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.getByUser = async (req, res) => {
+exports.getByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const histories = await historyMethods.getByUser(userId);
+    const histories = await historyMethods.getByUserId(userId);
+    if (!histories) return res.status(400).send('History is not found!');
+    return res.send(histories);
+  } catch (error) {
+    return null;
+  }
+};
+exports.getByUsername = async (req, res) => {
+  try {
+    const username = req.params.username;
+    const histories = await historyMethods.getByUsername(username);
     if (!histories) return res.status(400).send('History is not found!');
     return res.send(histories);
   } catch (error) {
@@ -41,7 +51,7 @@ exports.returnEquipment = async (req, res) => {
     );
     if (!returnEquipment)
       return res.status(400).send('Return equipment is not completed!');
-    return res.status(200);
+    return res.send("Return equipment is completed!");
   } catch (error) {
     return null;
   }
@@ -54,7 +64,7 @@ exports.create = async (req, res) => {
     const create = await historyMethods.create(history, admin);
     if (!create)
       return res.status(400).send('Creating history is not completed!');
-    return res.send(create);
+    return res.send("Creating history is completed!");
   } catch (error) {
     return null;
   }

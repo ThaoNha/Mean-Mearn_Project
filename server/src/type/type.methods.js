@@ -1,4 +1,5 @@
 const TypeModel = require('./type.model');
+const EquipmentMethod = require('../equipment/equipment.methods');
 
 exports.getTypes = async () => {
   try {
@@ -20,7 +21,7 @@ exports.getType = async (name) => {
 exports.create = async (type) => {
   try {
     const newType = new TypeModel({
-      name: type.name
+      name: type.name,
     });
     const typeResponse = await newType.save();
     return typeResponse;
@@ -29,9 +30,11 @@ exports.create = async (type) => {
   }
 };
 
-
 exports.delete = async (name) => {
   try {
+    const type = await TypeModel.findOne({ name });
+    const equipments = await EquipmentMethod.getByType(type._id);
+    if (equipments) return false;
     await TypeModel.findOneAndDelete({ name });
     return true;
   } catch (error) {

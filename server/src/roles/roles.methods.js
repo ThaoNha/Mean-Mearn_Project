@@ -1,4 +1,5 @@
 const RoleModel = require('./roles.model');
+const UserMethod = require('../users/users.methods');
 
 exports.getRoles = async () => {
   try {
@@ -11,7 +12,7 @@ exports.getRoles = async () => {
 
 exports.getRole = async (name) => {
   try {
-    return await RoleModel.findOne({ name });
+    return await RoleModel.findOne({ name: name });
   } catch (error) {
     return null;
   }
@@ -31,6 +32,9 @@ exports.create = async (role) => {
 
 exports.delete = async (name) => {
   try {
+    const role = await RoleModel.findOne({ name: name }); 
+    const user = await UserMethod.getUserByRole(role._id);
+    if (user) return false;
     await RoleModel.findOneAndDelete({ name });
     return true;
   } catch (error) {

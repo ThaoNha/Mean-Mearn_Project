@@ -1,9 +1,38 @@
 const UserModel = require('./users.models');
 const roleMethod = require('../roles/roles.methods');
+const bcrypt = require('bcrypt');
+const { SALT_ROUNDS } = require('../../variables/auth');
 
-exports.getUser = async (username) => {
+exports.get = async () => {
   try {
-    const user = await UserModel.findOne({ username }).populate('roles');
+    const users = await UserModel.find().populate('role');
+    return users;
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.getUserByRole = async (role) => {
+  try {
+    const users = await UserModel.find({ role: role });
+    return users;
+  } catch (error) {
+    return false;
+  }
+};
+exports.getUserByUsername = async (username) => {
+  try {
+    const user = await UserModel.findOne({ username: username }).populate(
+      'role',
+    );
+    return user;
+  } catch (error) {
+    return null;
+  }
+};
+exports.getUserById = async (id) => {
+  try {
+    const user = await UserModel.findOne({ id: id }).populate('role');
     return user;
   } catch (error) {
     return null;
@@ -24,7 +53,6 @@ exports.createUser = async (user) => {
       status: user.status,
     });
 
-    console.log(newUser);
     await newUser.save();
     return newUser;
   } catch (error) {
@@ -42,20 +70,23 @@ exports.updateToken = async (username, token) => {
   }
 };
 
-exports.updateUser = async (userId, newUser) => {
+exports.updateUser = async (userId, newData) => {
   try {
-    const filter = { id: userId };
-    if (newUser.role) {
-      const role = await roleMethod.getRole(newUser.role);
-      newUser.role = role._id;
+    if (newData.id) {
+      delete newData.id;
     }
-    if (newUser.id) {
-      delete newUser.id;
+    if (newData.username) {
+      delete newData.username;
     }
-    if (newUser.username) {
-      delete newUser.username;
+    if (newData.role) {
+      const role = await roleMethod.getRole(newData.role);
+      newData.role = role._id;
     }
-    await UserModel.findOneAndUpdate(filter, newUser);
+    if (newData.password) {
+      const hashPassword = bcrypt.hashSync(newData.password, SALT_ROUNDS);
+      newData.password = hashPassword;
+    }
+    await UserModel.findOneAndUpdate({ id: userId }, newData);
     return true;
   } catch (error) {
     return false;

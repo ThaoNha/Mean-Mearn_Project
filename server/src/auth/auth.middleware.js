@@ -20,7 +20,18 @@ exports.isAuth = async (req, res, next) => {
       .send('Bạn không có quyền truy cập vào tính năng này!');
   }
 
-  const user = await userModel.getUser(verified.payload.username);
+  const user = await userModel.getUserByUsername(verified.payload.username);
+  user.password = null;
+  user.refreshToken = null;
   req.user = user;
   return next();
 };
+
+exports.isManager = async (req, res, next) => {
+  if(req.user.role.name === 'manager') return next();
+  else {
+    return res
+    .status(401)
+    .send('Bạn không có quyền thực hiện tính năng này!');
+  }
+}

@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
   const { id, username, password, role } = req.body;
   if (!username || !password)
     return res.status(400).send('Hay nhap username and/or password');
-  const user = await userMethod.getUser(username);
+  const user = await userMethod.getUserByUsername(username);
   if (user) return res.status(409).send('Ten tai khoan da ton tai.');
   else {
     const hashPassword = bcrypt.hashSync(password, SALT_ROUNDS);
@@ -34,7 +34,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await userMethod.getUser(username);
+  const user = await userMethod.getUserByUsername(username);
 
   if (!user) return res.status(401).send('Ten dang nhap hoac mat khau sai!');
 
@@ -94,7 +94,7 @@ exports.refreshToken = async (req, res) => {
     return res.status(400).send('Access token không hợp lệ.');
   }
   const username = decoded.payload.username;
-  const user = await userMethod.getUser(username);
+  const user = await userMethod.getUserByUsername(username);
   if (!user) {
     return res.status(401).send('User không tồn tại.');
   }

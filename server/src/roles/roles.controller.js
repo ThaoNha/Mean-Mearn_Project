@@ -23,6 +23,6 @@ exports.create = async (req, res) => {
 exports.delete = async (req, res) => {
   const name = req.params.roleName;
   const result = await roleMethod.delete(name);
-  if (!result) return res.status(400).send('Deleting Role is not completed!');
+  if (!result) return res.status(400).send('Deleting Role is not completed. Users are using this role!');
   return res.status(200).send('Deleting Role is completed!');
 };
