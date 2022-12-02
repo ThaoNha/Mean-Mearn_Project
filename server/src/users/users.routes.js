@@ -15,6 +15,8 @@ router.get('', isAuth, isManager, userController.get);
 
 router.put('/update', isAuth, userController.update);
 
+router.put('/update/:userId', isAuth, isManager, userController.updateByUserId);
+
 router.put(
   '/forget-password/:userId',
   isAuth,

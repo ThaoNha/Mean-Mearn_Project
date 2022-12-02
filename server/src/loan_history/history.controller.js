@@ -8,12 +8,20 @@ exports.getAll = async (req, res) => {
     return null;
   }
 };
+exports.getHistory = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const histories = await historyMethods.getByUserId(userId);
+    return res.send(histories);
+  } catch (error) {
+    return null;
+  }
+}
 
 exports.getByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;
     const histories = await historyMethods.getByUserId(userId);
-    if (!histories) return res.status(400).send('History is not found!');
     return res.send(histories);
   } catch (error) {
     return null;
@@ -23,7 +31,6 @@ exports.getByUsername = async (req, res) => {
   try {
     const username = req.params.username;
     const histories = await historyMethods.getByUsername(username);
-    if (!histories) return res.status(400).send('History is not found!');
     return res.send(histories);
   } catch (error) {
     return null;
@@ -34,7 +41,6 @@ exports.getByEquipment = async (req, res) => {
   try {
     const equipmentId = req.params.equipmentId;
     const histories = await historyMethods.getByEquipment(equipmentId);
-    if (!histories) return res.status(400).send('History is not found!');
     return res.send(histories);
   } catch (error) {
     return null;

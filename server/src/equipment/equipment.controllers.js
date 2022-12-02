@@ -12,7 +12,6 @@ exports.get = async (req, res) => {
   try {
     const equipmentId = req.params.equipmentId;
     const equipment = await equipmentMethod.getEquipment(equipmentId);
-    if (!equipment) return res.status(400).send('Equipment is not found!');
     return res.send(equipment);
   } catch (error) {
     return null;
@@ -40,7 +39,7 @@ exports.update = async (req, res) => {
     const equipmentId = req.params.equipmentId;
     const reqEquipment = req.body;
     const equipmentExist = await equipmentMethod.getEquipment(equipmentId);
-    if (!equipmentExist) return res.status(400).send('Equipment is not found!');
+    if (!equipmentExist) return res.status(400).send('Equipment is not existed!');
     const equipment = await equipmentMethod.update(equipmentId, reqEquipment);
     if (!equipment)
       return res.status(400).send('Updating Equipment is not completed!');
