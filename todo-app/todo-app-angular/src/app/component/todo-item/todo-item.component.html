@@ -1,0 +1,77 @@
+<div class='mb-3 d-flex justify-content-center'>
+  <form #itemForm="ngForm" (ngSubmit)="addItem(itemForm.value)">
+    <input class="m-2 p-1" name='title' ngModel type='text' placeholder='Create todo' />
+    <input class="m-2 p-1" name='description' ngModel type='text' placeholder='Description todo' />
+    <button class="p-1" type="submit">Create</button>
+  </form>
+</div>
+<div class=" mb-3">
+  <table class='table'>
+    <thead>
+      <tr>
+        <th scope='col'>Title</th>
+        <th scope='col'>Description</th>
+        <th scope='col'>Date</th>
+        <th scope='col'>Status</th>
+        <th scope='col'>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of todoList;let i = index">
+        <th>{{item.title}}</th>
+        <th>{{item.description}}</th>
+        <th>{{item.date}}</th>
+        <th>{{item.status}}</th>
+        <th>
+          <div class='btns'>
+            <button (click)="completeTodoItem(i)" class="mb-1 px-1">
+              {{item.status === 'Active' ? 'Completed' : 'Active'}}
+            </button>
+            <button class="mb-1 px-1" data-toggle='modal' data-target='#exampleModal' (click)="changeIndex(i)">
+              Update
+            </button>
+            <button class="mb-1 px-1" (click)="deleteTodoItem(i)">X</button>
+          </div>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<form class='modal fade' id='exampleModal' tabIndex='-1' role='dialog' aria-labelledby='exampleModalLabel'
+  aria-hidden='true' #itemFormUpdate="ngForm" (ngSubmit)="updateItem(itemFormUpdate.value)">
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title text-dark' id='exampleModalLabel'>
+          Update Todo
+        </h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+      <div class='modal-body'>
+        <div class='form-group'>
+          <label htmlFor='recipient-name' class='col-form-label text-dark'>
+            Title:
+          </label>
+          <input type='text' class='form-control' id='recipient-name' ngModel name='title' [value]="item.title" />
+        </div>
+        <div class='form-group'>
+          <label htmlFor='message-text' class='col-form-label text-dark'>
+            Description:
+          </label>
+          <textarea class='form-control' id='message-text' ngModel name="description"
+            [value]="item.description"></textarea>
+        </div>
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-secondary' data-dismiss='modal'>
+          Close
+        </button>
+        <button type='submit' class='btn btn-primary'>
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
