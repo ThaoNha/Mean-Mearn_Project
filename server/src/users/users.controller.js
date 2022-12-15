@@ -8,6 +8,9 @@ exports.get = async (req, res) => {
 exports.update = async (req, res) => {
   const newData = req.body;
   if (newData) {
+    if (newData.status) {
+      delete newData.status;
+    }
     const update = await userMethods.updateUser(req.user.id, newData);
     if (update) {
       return res.send('Cập nhật user thành công.');
