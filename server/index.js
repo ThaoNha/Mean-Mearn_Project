@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('./utils/connectDB');
-const createError = require('http-error');
+const createError = require('http-errors');
 require('express-async-errors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');

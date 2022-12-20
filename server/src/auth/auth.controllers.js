@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
 
   const user = await userMethod.getUserByUsername(username);
 
-  if(user.status !=='activate')  return res.status(401).send('Ten dang nhap hoac mat khau sai!');
+  if(user && user.status !=='activate')  return res.status(401).send('Ten dang nhap hoac mat khau sai!');
 
   if (!user) return res.status(401).send('Ten dang nhap hoac mat khau sai!');
 
@@ -55,7 +55,6 @@ exports.login = async (req, res) => {
     accessTokenLife,
   );
   let refreshToken = randToken.generate(jwtVariable.refreshTokenSize);
-
   if (!accessToken || !refreshToken) {
     return res
       .status(401)
@@ -69,6 +68,7 @@ exports.login = async (req, res) => {
     username,
     accessToken,
     refreshToken,
+    role:user.role.name
   });
 };
 

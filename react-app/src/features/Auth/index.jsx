@@ -1,10 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../api/login';
 
 export default function index() {
+  const { userInfo, error } = useSelector((state) => {
+    return state.auth;
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userInfo && userInfo.role === 'user') {
+      navigate('/user/history');
+    } else if (userInfo && userInfo.role === 'manager') {
+      navigate('/admin/equipment');
+    }
+  }, [navigate, userInfo]);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -15,7 +31,7 @@ export default function index() {
       password: Yup.string().required('Password is required'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(login(values));
     },
   });
 
@@ -30,6 +46,7 @@ export default function index() {
                   <h1>Login</h1>
                 </div>
               </div>
+              {error && <div className='text-danger'>{error}</div>}
               <form onSubmit={formik.handleSubmit}>
                 <div className='form-group'>
                   <label>Username</label>

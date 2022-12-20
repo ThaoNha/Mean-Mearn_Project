@@ -1,4 +1,4 @@
-import Login from './features/Login';
+import Auth from './features/Auth';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import History from './features/user/history_equipment';
 import Profile from './features/user/profile';
@@ -14,9 +14,8 @@ function App() {
     <> 
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<Login />}></Route>
+          <Route path='/login' element={<Auth />}></Route>
           <Route path='/user/history' element={<History />}></Route>
-          <Route path='/user/profile' element={<Profile />}></Route>
           <Route path='/admin/equipment' element={<Equipment />}></Route>
           <Route path='/admin/history' element={<HistoryAdmin />}></Route>
           <Route path='/admin/role' element={<Role />}></Route>
