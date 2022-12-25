@@ -5,6 +5,10 @@ exports.get = async (req, res) => {
   return res.send(users);
 };
 
+exports.getUser = async (req, res) => {
+  const users = await userMethods.getUser();
+  return res.send(users);
+};
 exports.update = async (req, res) => {
   const newData = req.body;
   if (newData) {

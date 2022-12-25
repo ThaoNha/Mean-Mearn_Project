@@ -6,7 +6,34 @@ const { SALT_ROUNDS } = require('../../variables/auth');
 exports.get = async () => {
   try {
     const users = await UserModel.find().populate('role');
-    return users;
+    const response = users.map((user) => {
+      return {
+        id: user.id,
+        username: user.username,
+        role: user.role.name,
+        status: user.status,
+      };
+    });
+    return response;
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.getUser = async () => {
+  try {
+    const users = await UserModel.find().populate('role');
+    const response = users
+      .filter((user) => user.role.name === 'user' && user.status === 'activate')
+      .map((user) => {
+        return {
+          id: user.id,
+          username: user.username,
+          role: user.role.name,
+          status: user.status,
+        };
+      });
+    return response;
   } catch (error) {
     return null;
   }

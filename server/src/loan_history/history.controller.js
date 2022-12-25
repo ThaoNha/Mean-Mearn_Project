@@ -10,9 +10,9 @@ exports.getAll = async (req, res) => {
 };
 exports.getHistory = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     const histories = await historyMethods.getByUserId(userId);
-    return res.send(histories);
+    return res.json(histories);
   } catch (error) {
     return null;
   }
@@ -20,7 +20,7 @@ exports.getHistory = async (req, res) => {
 
 exports.getByUserId = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.id;
     const histories = await historyMethods.getByUserId(userId);
     return res.send(histories);
   } catch (error) {

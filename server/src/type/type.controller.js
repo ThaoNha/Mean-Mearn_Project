@@ -20,6 +20,14 @@ exports.create = async (req, res) => {
   return res.send(typeResponse);
 };
 
+exports.update = async (req, res) => {
+  const type = req.body;
+  const name = req.params.typeName;
+  const typeResponse = await typeMethod.update(name,type);
+  if (!typeResponse)
+    return res.status(400).send('Updating Type is not completed!');
+  return res.send(typeResponse);
+};
 exports.delete = async (req, res) => {
   const name = req.params.typeName;
   const result = await typeMethod.delete(name);

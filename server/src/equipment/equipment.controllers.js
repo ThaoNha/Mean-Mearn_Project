@@ -8,6 +8,14 @@ exports.getAll = async (req, res) => {
     return null;
   }
 };
+exports.getActive = async (req, res) => {
+  try {
+    const equipments = await equipmentMethod.getActive();
+    return res.send(equipments);
+  } catch (error) {
+    return null;
+  }
+};
 exports.get = async (req, res) => {
   try {
     const equipmentId = req.params.equipmentId;

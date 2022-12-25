@@ -5,21 +5,28 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../api/login';
+import { login } from '../../api/auth/login';
 
 export default function index() {
-  const { userInfo, error } = useSelector((state) => {
+  const { userInfo, status } = useSelector((state) => {
     return state.auth;
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    if (userInfo && userInfo.role === 'user') {
-      navigate('/user/history');
-    } else if (userInfo && userInfo.role === 'manager') {
-      navigate('/admin/equipment');
+    if (status === 200) {
+      switch (userInfo.role) {
+        case 'user':
+          navigate('/user/history');
+          break;
+        case 'manager':
+          navigate('/admin/equipment');
+          break;
+        default:
+          break;
+      }
     }
-  }, [navigate, userInfo]);
+  }, [status, navigate, userInfo]);
 
   const formik = useFormik({
     initialValues: {
@@ -46,7 +53,9 @@ export default function index() {
                   <h1>Login</h1>
                 </div>
               </div>
-              {error && <div className='text-danger'>{error}</div>}
+              {status && status !== 200 && (
+                <div className='text-danger'>{userInfo}</div>
+              )}
               <form onSubmit={formik.handleSubmit}>
                 <div className='form-group'>
                   <label>Username</label>

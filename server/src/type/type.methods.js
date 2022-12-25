@@ -29,14 +29,24 @@ exports.create = async (type) => {
     return false;
   }
 };
+exports.update = async (name, type) => {
+  try {
+    const type = await TypeModel.findOne({ name });
+    const equipments = await EquipmentMethod.getByType(type._id);
+    if (equipments) return false;
+    await TypeModel.findOneAndUpdate({ name }, type);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
 exports.delete = async (name) => {
   try {
     const type = await TypeModel.findOne({ name });
     const equipments = await EquipmentMethod.getByType(type._id);
     if (equipments) return false;
-    await TypeModel.findOneAndDelete({ name });
-    return true;
+    return await update(name, { status: 'deleted' });
   } catch (error) {
     return false;
   }

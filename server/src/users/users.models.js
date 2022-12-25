@@ -9,8 +9,8 @@ const UserSchema = new Schema({
   refreshToken: { type: String, default: null },
   status: {
     type: String,
-    enum: ['activate', 'block', 'delete'],
-    default: 'activate',
+    enum: ['active', 'block', 'deleted'],
+    default: 'active',
   },
 });
 

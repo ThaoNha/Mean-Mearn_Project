@@ -10,6 +10,7 @@ const isManager = authMiddleware.isManager;
 router.get('', roleController.getAll);
 router.get('/:roleName', roleController.get);
 router.post('/create', isAuth, isManager, roleController.create);
+router.put('/update/:roleName', isAuth, isManager, roleController.update);
 router.delete('/:roleName', isAuth, isManager, roleController.delete);
 
 module.exports = router;

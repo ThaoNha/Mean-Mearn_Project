@@ -1,5 +1,5 @@
 import React from 'react';
-import RoleTable from '../../../common/RoleTypeTable';
+import RoleTable from '../../../common/RoleTable';
 import Header from '../../../common/Header';
 import NavBar from '../NavBar';
 

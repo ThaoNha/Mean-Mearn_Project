@@ -1,7 +1,6 @@
 import Auth from './features/Auth';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import History from './features/user/history_equipment';
-import Profile from './features/user/profile';
 
 import Equipment from './features/admin/crud-equipment';
 import HistoryAdmin from './features/admin/crud-history';

@@ -1,47 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from '../features/Auth/authSlice';
-import { getProfile } from '../api/getProfile';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { changePassword } from '../api/change-password';
-import { getNewToken } from '../api/getNewToken';
-import { useEffect } from 'react';
+import { logout } from '../features/Auth/authSlice';
+import { changePassword } from '../api/auth/changePassword';
+import { profile } from '../api/auth/profile';
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [data, setData] = useState();
-  useEffect(() => {
-    dispatch(getProfile()).then((response) => {
-      if (response && response.payload.status === 401) navigate('/login');
-      const href = window.location.href.split('/');
-      if (href[3] === 'user' && response.payload.data.role.name === 'manager')
-        navigate('/admin/equipment');
-      else if (
-        href[3] === 'admin' &&
-        response.payload.data.role.name === 'user'
-      )
-        navigate('/user/history');
-      setData(response.payload.data);
-    });
-    const tokenTime = localStorage.getItem('tokenTime')
-      ? localStorage.getItem('tokenTime')
-      : null;
-    const time = new Date().getTime();
-    if (time - tokenTime > 600000) navigate('/login');
-    else if (time - tokenTime >= 500000) {
-      dispatch(getNewToken()).then((data) => {
-        localStorage.setItem('accessToken', data.data.accessToken);
-        localStorage.setItem('refreshToken', data.data.refreshToken);
-        localStorage.setItem('tokenTime', new Date().getTime());
-      });
-    }
-  }, [dispatch, navigate]);
-
   const [error, setError] = useState('');
-  const [status, setStatus] = useState('');
+  const [result, setResult] = useState('');
+  const { profileData, role, status } = useSelector((state) => {
+    return state.profile;
+  });
+  useEffect(() => {
+    dispatch(profile());
+  }, []);
+  useEffect(() => {
+    if (profileData) {
+      if (status === 200) {
+        const pathname = window.location.pathname;
+        if (role === 'user' && !pathname.includes('user/'))
+          navigate('/user/history');
+        if (role === 'manager' && !pathname.includes('admin'))
+          navigate('/admin/equipment');
+      } else if (status === 400 || status === 401) {
+        dispatch(logout());
+        navigate('/login');
+      }
+    }
+  }, [navigate, profileData, dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -54,21 +45,25 @@ export default function Header() {
     }),
     onSubmit: (values) => {
       if (values.newPassword === values.repeatPassword) {
-        dispatch(changePassword(values.newPassword)).then((data) => {
-          if (data && data.payload) {
-            if (data.payload.status === 200) {
-              setStatus('Updating is completed!');
+        changePassword(values.newPassword).then((data) => {
+          if (data) {
+            if (data.status === 200) {
+              setResult('Updating is completed!');
               setError('');
+            } else if (data.status === 401) {
+              dispatch(logout());
+              navigate('/login');
+              window.location.reload();
             } else {
               setError('Updating is not completed!');
-              setStatus('');
+              setResult('');
             }
           }
         });
         formik.resetForm();
       } else {
         setError('New Password is matched Repeat Password!');
-        setStatus('');
+        setResult('');
       }
     },
   });
@@ -120,7 +115,7 @@ export default function Header() {
           </div>
         </nav>
       </div>
-      {data && (
+      {profileData && (
         <div
           className='modal fade'
           id='user-information'
@@ -156,7 +151,7 @@ export default function Header() {
                       htmlFor='recipient-name'
                       className='col-form-label col-3'
                     >
-                      {data.id}
+                      {profileData.id}
                     </label>
                   </div>
                   <div className='form-group'>
@@ -170,7 +165,7 @@ export default function Header() {
                       htmlFor='recipient-name'
                       className='col-form-label col-3'
                     >
-                      {data.username}
+                      {profileData.username}
                     </label>
                   </div>
                   <div className='form-group'>
@@ -184,7 +179,7 @@ export default function Header() {
                       htmlFor='recipient-name'
                       className='col-form-label col-3'
                     >
-                      {data.role.name}
+                      {role}
                     </label>
                   </div>
                   <div className='form-group'>
@@ -198,7 +193,7 @@ export default function Header() {
                       htmlFor='recipient-name'
                       className='col-form-label col-3'
                     >
-                      {data.status}
+                      {profileData.status}
                     </label>
                   </div>
                 </form>
@@ -236,17 +231,17 @@ export default function Header() {
                 data-dismiss='modal'
                 aria-label='Close'
                 onClick={() => {
-                  setStatus('');
+                  setResult('');
                   setError('');
+                  formik.resetForm();
                 }}
               >
                 <span aria-hidden='true'>&times;</span>
               </button>
             </div>
-
             <div className='modal-body'>
               {error && <p className='text-danger'>{error}</p>}
-              {status && <p className='text-success'>{status}</p>}
+              {result && <p className='text-success'>{result}</p>}
               <form onSubmit={formik.handleSubmit}>
                 <div className='form-group'>
                   <label htmlFor='recipient-name' className='col-form-label'>
@@ -289,7 +284,7 @@ export default function Header() {
                     className='btn btn-secondary'
                     data-dismiss='modal'
                     onClick={() => {
-                      setStatus('');
+                      setResult('');
                       setError('');
                     }}
                   >

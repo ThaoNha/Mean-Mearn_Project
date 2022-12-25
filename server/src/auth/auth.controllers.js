@@ -36,7 +36,8 @@ exports.login = async (req, res) => {
 
   const user = await userMethod.getUserByUsername(username);
 
-  if(user && user.status !=='activate')  return res.status(401).send('Ten dang nhap hoac mat khau sai!');
+  if (user && user.status !== 'activate')
+    return res.status(401).send('Ten dang nhap hoac mat khau sai!');
 
   if (!user) return res.status(401).send('Ten dang nhap hoac mat khau sai!');
 
@@ -65,10 +66,9 @@ exports.login = async (req, res) => {
   });
   return res.json({
     msg: 'Đăng nhập thành công.',
-    username,
+    data: { id: user.id, username, role: user.role.name, status: user.status },
     accessToken,
     refreshToken,
-    role:user.role.name
   });
 };
 

@@ -20,6 +20,15 @@ exports.create = async (req, res) => {
   return res.send(roleResponse);
 };
 
+exports.update = async (req, res) => {
+  const role = req.body;
+  const name = req.params.roleName;
+  const roleResponse = await roleMethod.update(name,role);
+  if (!roleResponse)
+    return res.status(400).send('Updating Role is not completed!');
+  return res.send(roleResponse);
+};
+
 exports.delete = async (req, res) => {
   const name = req.params.roleName;
   const result = await roleMethod.delete(name);

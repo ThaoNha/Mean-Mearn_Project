@@ -2,27 +2,88 @@ const EquipmentModel = require('./equipment.models');
 const TypeMethod = require('../type/type.methods');
 exports.getAll = async () => {
   try {
-    return await EquipmentModel.find().populate('type');
+    const equipments = await EquipmentModel.find().populate('type');
+    const response = equipments.map((equipment) => {
+      return {
+        id: equipment.id,
+        name: equipment.name,
+        type: equipment.type.name,
+        description: equipment.description,
+        status: equipment.status,
+      };
+    });
+    return response;
+  } catch (error) {
+    return null;
+  }
+};
+exports.getActive = async () => {
+  try {
+    const equipments = await EquipmentModel.find().populate('type');
+    const response = equipments
+      .filter((equipment) => equipment.status === 'available')
+      .map((equipment) => {
+        return {
+          id: equipment.id,
+          name: equipment.name,
+          type: equipment.type.name,
+          description: equipment.description,
+          status: equipment.status,
+        };
+      });
+    return response;
   } catch (error) {
     return null;
   }
 };
 exports.getEquipment = async (equipmentId) => {
   try {
-    return await EquipmentModel.findOne({ id: equipmentId }).populate('type');
+    const equipment = await EquipmentModel.findOne({
+      id: equipmentId,
+    }).populate('type');
+    return {
+      _id: equipment._id,
+      id: equipment.id,
+      name: equipment.name,
+      type: equipment.type.name,
+      description: equipment.description,
+      status: equipment.status,
+    };
   } catch (error) {
     return null;
   }
 };
-exports.getByType = async (typeId) =>{
-  try { 
-    return await EquipmentModel.find({ type: typeId });
+exports.getByType = async (typeId) => {
+  try {
+    const equipments = await EquipmentModel.find({ type: typeId });
+    const response = equipments.map((equipment) => {
+      return {
+        id: equipment.id,
+        name: equipment.name,
+        type: equipment.type.name,
+        description: equipment.description,
+        status: equipment.status,
+      };
+    });
+    return response;
   } catch (error) {
     return false;
   }
-}
+};
 exports.create = async (reqEquipment) => {
   try {
+    if (reqEquipment.status) {
+      switch (reqEquipment.status) {
+        case 'available':
+        case 'borrowed':
+        case 'repairing':
+        case 'deleted':
+          break;
+        default:
+          delete reqEquipment.status;
+          break;
+      }
+    }
     const type = await TypeMethod.getType(reqEquipment.type);
     if (type) {
       const newEquipment = new EquipmentModel({
@@ -33,7 +94,13 @@ exports.create = async (reqEquipment) => {
         description: reqEquipment.description,
       });
       const equipment = await (await newEquipment.save()).populate('type');
-      return equipment;
+      return {
+        id: equipment.id,
+        name: equipment.name,
+        type: equipment.type.name,
+        description: equipment.description,
+        status: equipment.status,
+      };
     }
     return false;
   } catch (error) {
@@ -42,15 +109,31 @@ exports.create = async (reqEquipment) => {
 };
 exports.update = async (equipmentId, reqEquipment) => {
   try {
-    if(reqEquipment.id){
+    if (reqEquipment.status) {
+      switch (reqEquipment.status) {
+        case 'available':
+        case 'borrowed':
+        case 'repairing':
+        case 'deleted':
+          break;
+        default:
+          delete reqEquipment.status;
+          break;
+      }
+    }
+    if (reqEquipment.id) {
       delete reqEquipment.id;
     }
     if (reqEquipment.type) {
       const type = await TypeMethod.getType(reqEquipment.type);
       reqEquipment.type = type._id;
-    } 
-    await EquipmentModel.findOneAndUpdate({ id: equipmentId }, reqEquipment);
-    return await EquipmentModel.findOne({ id: equipmentId }).populate('type');
+    }
+    const equipment = await EquipmentModel.findOneAndUpdate(
+      { id: equipmentId },
+      reqEquipment,
+    );
+    if (equipment) return true;
+    else return false;
   } catch (error) {
     return false;
   }

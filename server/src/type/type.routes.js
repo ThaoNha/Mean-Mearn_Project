@@ -10,6 +10,7 @@ const isManager = authMiddleware.isManager;
 router.get('', typeController.getAll);
 router.get('/:typeName', typeController.get);
 router.post('/create', isAuth, isManager, typeController.create);
+router.put('/update/:typeName', isAuth, isManager, typeController.update);
 router.delete('/:typeName', isAuth, isManager, typeController.delete);
 
 module.exports = router;

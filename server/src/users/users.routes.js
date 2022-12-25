@@ -13,6 +13,8 @@ router.get('/profile', isAuth, async (req, res) => {
 
 router.get('', isAuth, isManager, userController.get);
 
+router.get('/user-role', isAuth, isManager, userController.getUser);
+
 router.put('/update', isAuth, userController.update);
 
 router.put('/update/:userId', isAuth, isManager, userController.updateByUserId);

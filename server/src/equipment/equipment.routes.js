@@ -9,6 +9,7 @@ const isManager = authMiddleware.isManager;
 // @route GET api/equipment
 
 router.get('', isAuth, isManager, equipmentController.getAll);
+router.get('/active', isAuth, isManager, equipmentController.getActive);
 router.get('/:equipmentId', isAuth, equipmentController.get);
 router.post('/create', isAuth, isManager, equipmentController.create);
 router.put('/:equipmentId', isAuth, isManager, equipmentController.update);

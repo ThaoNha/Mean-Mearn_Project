@@ -1,60 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { changePassword } from '../../api/change-password';
-import { login } from '../../api/login';
-
-const accessToken = localStorage.getItem('accessToken')
-  ? localStorage.getItem('accessToken')
-  : null;
+import { login } from '../../api/auth/login';
 
 const initialState = {
-  loading: false,
   userInfo: null,
-  accessToken,
-  error: null,
-  success: false,
-  changePasswordStatus: null,
+  status: null,
 };
+
 const authSlice = createSlice({
-  name: 'user',
+  name: 'auth',
   initialState,
   reducers: {
     logout: (state) => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('tokenTime');
-      state.loading = false;
       state.userInfo = null;
-      state.accessToken = null;
-      state.error = null;
-    },
-    setCredentials: (state, { payload }) => {
-      state.userInfo = payload.data;
+      state.status = null;
     },
   },
   extraReducers: {
-    [login.spending]: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
     [login.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.userInfo = payload.data;
-      state.accessToken = payload.data.accessToken;
+      state.userInfo = payload.data.data;
       state.status = payload.status;
     },
     [login.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload.data;
-    },
-    [changePassword.fulfilled]: (state, { payload }) => {
-      state.changePasswordStatus = payload.status;
-    },
-    [changePassword.rejected]: (state, { payload }) => {
-      state.changePasswordStatus = payload.status;
+      state.userInfo = payload.data;
+      state.status = payload.status;
     },
   },
 });
-
-export const { logout, setCredentials } = authSlice.actions;
-
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
