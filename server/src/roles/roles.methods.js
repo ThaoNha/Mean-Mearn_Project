@@ -30,27 +30,25 @@ exports.create = async (role) => {
   }
 };
 
-
 exports.update = async (name, role) => {
   try {
-    const role = await RoleModel.findOne({ name: name }); 
-    const user = await UserMethod.getUserByRole(role._id);
-    if (user) return false;
-    await RoleModel.findOneAndUpdate({ name }, role);
+    const roleOld = await RoleModel.findOne({ name: name });
+    const user = await UserMethod.getUserByRole(roleOld._id);
+    if (user.length !== 0) return false;
+    await RoleModel.findOneAndUpdate({ name: name }, role);
     return true;
   } catch (error) {
     return false;
   }
 };
 
-
 exports.delete = async (name) => {
   try {
-    const role = await RoleModel.findOne({ name: name }); 
+    const role = await RoleModel.findOne({ name: name });
     const user = await UserMethod.getUserByRole(role._id);
-    if (user) return false;
-    return await RoleModel.findOneAndUpdate({ name },{status:'deleted'});
-   
+    if (user.length !== 0) return false;
+    await RoleModel.findOneAndUpdate({ name: name }, { status: 'deleted' });
+    return true;
   } catch (error) {
     return false;
   }

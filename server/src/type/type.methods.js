@@ -31,10 +31,10 @@ exports.create = async (type) => {
 };
 exports.update = async (name, type) => {
   try {
-    const type = await TypeModel.findOne({ name });
-    const equipments = await EquipmentMethod.getByType(type._id);
-    if (equipments) return false;
-    await TypeModel.findOneAndUpdate({ name }, type);
+    const typeOld = await TypeModel.findOne({ name: name });
+    const equipments = await EquipmentMethod.getByType(typeOld._id);
+    if (equipments.length !== 0) return false;
+    await TypeModel.findOneAndUpdate({ name: name }, type);
     return true;
   } catch (error) {
     return false;
@@ -43,10 +43,11 @@ exports.update = async (name, type) => {
 
 exports.delete = async (name) => {
   try {
-    const type = await TypeModel.findOne({ name });
+    const type = await TypeModel.findOne({ name: name });
     const equipments = await EquipmentMethod.getByType(type._id);
-    if (equipments) return false;
-    return await update(name, { status: 'deleted' });
+    if (equipments.length !== 0) return false;
+    await TypeModel.findOneAndUpdate({ name: name }, { status: 'deleted' });
+    return true;
   } catch (error) {
     return false;
   }

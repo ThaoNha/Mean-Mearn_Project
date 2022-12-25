@@ -24,7 +24,7 @@ exports.getUser = async () => {
   try {
     const users = await UserModel.find().populate('role');
     const response = users
-      .filter((user) => user.role.name === 'user' && user.status === 'activate')
+      .filter((user) => user.role.name === 'user' && user.status === 'active')
       .map((user) => {
         return {
           id: user.id,

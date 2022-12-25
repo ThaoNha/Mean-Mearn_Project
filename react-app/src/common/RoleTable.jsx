@@ -9,7 +9,7 @@ import { deleteRole } from '../api/role/deleteRole';
 import { updateRole } from '../api/role/updateRole';
 import { createRole } from '../api/role/createRole';
 
-export default function RoleRoleTable() {
+export default function RoleTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { roleData } = useSelector((state) => {
@@ -25,6 +25,7 @@ export default function RoleRoleTable() {
         <tr key={index}>
           <th scope='row'>{index + 1}</th>
           <td>{item.name}</td>
+          <td>{item.status}</td>
           <td className='row'>
             <div className='col-3'>
               <i
@@ -38,15 +39,19 @@ export default function RoleRoleTable() {
               ></i>
             </div>
             <div className='col-3'>
-              <i
-                data-toggle='modal'
-                data-target='#modal-delete'
-                className='fa fa-trash'
-                onClick={() => {
-                  setRoleIndex(index + 1);
-                  setShowDeleteModal(true);
-                }}
-              ></i>
+              {item.status === 'deleted' ? (
+                <i className='fa fa-trash-o'></i>
+              ) : (
+                <i
+                  data-toggle='modal'
+                  data-target='#modal-delete'
+                  className='fa fa-trash'
+                  onClick={() => {
+                    setRoleIndex(index + 1);
+                    setShowDeleteModal(true);
+                  }}
+                ></i>
+              )}
             </div>
           </td>
         </tr>
@@ -96,7 +101,7 @@ export default function RoleRoleTable() {
               </div>
               <div className='modal-body'>
                 Would you like to delete this role?(
-                {roleData[roleIndex - 1].id})
+                {roleData[roleIndex - 1].name})
               </div>
               <div className='modal-footer'>
                 <button
@@ -124,10 +129,12 @@ export default function RoleRoleTable() {
   const ModalEdit = () => {
     const formik = useFormik({
       initialValues: {
-        role: roleData[roleIndex - 1].role,
+        name: roleData[roleIndex - 1].name,
+        status: roleData[roleIndex - 1].status,
       },
       validationSchema: Yup.object().shape({}),
       onSubmit: (values) => {
+        console.log(values);
         updateRole(values, roleData[roleIndex - 1].name).then((data) => {
           if (data.status === 200) {
             alert('Updating is completed!');
@@ -184,7 +191,18 @@ export default function RoleRoleTable() {
                     className='col-form-label col-3'
                   />
                 </div>
-
+                <div className='form-group'>
+                  <label className='col-form-label col-3'>Role:</label>
+                  <select
+                    id='status'
+                    className='col-6'
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                  >
+                    <option value='active'>active</option>
+                    <option value='deleted'>deleted</option>
+                  </select>
+                </div>
                 <div className='modal-footer'>
                   <button
                     type='button'
@@ -210,7 +228,7 @@ export default function RoleRoleTable() {
         name: '',
       },
       validationSchema: Yup.object().shape({
-        name: Yup.string().required('ID is required'),
+        name: Yup.string().required('Name is required'),
       }),
       onSubmit: (values) => {
         console.log(values);
@@ -264,7 +282,7 @@ export default function RoleRoleTable() {
                       Name:
                     </label>
                     <input
-                      id='id'
+                      id='name'
                       type='text'
                       className='col-form-label col-6'
                       value={formik.values.name}
@@ -301,15 +319,16 @@ export default function RoleRoleTable() {
           <tr>
             <th scope='col'>#</th>
             <th scope='col'>Name</th>
+            <th scope='col'>Status</th>
             <th scope='col'>
-                Function
-                <i
-                  className='fa fa-plus-circle pl-3'
-                  data-toggle='modal'
-                  data-target='#modal-add'
-                  onClick={() => setShowAddModal(true)}
-                ></i>
-              </th>
+              Function
+              <i
+                className='fa fa-plus-circle pl-3'
+                data-toggle='modal'
+                data-target='#modal-add'
+                onClick={() => setShowAddModal(true)}
+              ></i>
+            </th>
           </tr>
         </thead>
         <tbody>{roleData && <ListItems />}</tbody>

@@ -15,7 +15,7 @@ export const deleteUser = async (userID) => {
 
     const response = await axios.put(
       `${backendURL}api/users/update/${userID}`,
-      { status: 'delete' },
+      { status: 'deleted' },
       config,
     );
     console.log(response);

@@ -46,7 +46,7 @@ export default function UserTable() {
               ></i>
             </div>
             <div className='col-3'>
-              {item.status === 'delete' ? (
+              {item.status === 'deleted' ? (
                 <i className='fa fa-trash-o'></i>
               ) : (
                 <i
@@ -218,13 +218,15 @@ export default function UserTable() {
                     value={formik.values.role}
                     onChange={formik.handleChange}
                   >
-                    {roleData.map((item, index) => {
-                      return (
-                        <option value={item.name} key={index}>
-                          {item.name}
-                        </option>
-                      );
-                    })}
+                    {roleData
+                      .filter((item) => item.status !== 'deleted')
+                      .map((item, index) => {
+                        return (
+                          <option value={item.name} key={index}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
                 <div className='form-group'>
@@ -234,7 +236,6 @@ export default function UserTable() {
                   >
                     Status:
                   </label>
-
                   <select
                     id='status'
                     type='text'
@@ -281,7 +282,6 @@ export default function UserTable() {
         role: Yup.string().required('Role is required'),
       }),
       onSubmit: (values) => {
-        console.log(values);
         createUser(values).then((data) => {
           if (data.status === 200) {
             alert('Add Equipment is complete!');
@@ -350,7 +350,7 @@ export default function UserTable() {
                       Username:
                     </label>
                     <input
-                      id='name'
+                      id='username'
                       type='text'
                       className='col-form-label col-6'
                       value={formik.values.username}
@@ -361,9 +361,27 @@ export default function UserTable() {
                     )}
                   </div>
                   <div className='form-group'>
-                    <label className='col-form-label col-3'>Type:</label>
+                    <label
+                      htmlFor='recipient-name'
+                      className='col-form-label col-3'
+                    >
+                      Password:
+                    </label>
+                    <input
+                      id='password'
+                      type='text'
+                      className='col-form-label col-6'
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.errors.password && formik.touched.password && (
+                      <p className='text-danger'>{formik.errors.password}</p>
+                    )}
+                  </div>
+                  <div className='form-group'>
+                    <label className='col-form-label col-3'>Role:</label>
                     <select
-                      id='type'
+                      id='role'
                       className='col-6'
                       value={formik.values.role}
                       onChange={formik.handleChange}

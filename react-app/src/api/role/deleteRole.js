@@ -3,6 +3,7 @@ import axios from 'axios';
 const backendURL = 'http://localhost:5000/';
 export const deleteRole = async (name) => {
   try {
+    console.log(name)
     const accessToken = localStorage.getItem('accessToken')
       ? localStorage.getItem('accessToken')
       : null;
