@@ -13,10 +13,11 @@ export const deleteEquipment = async (equipmentID) => {
       },
     };
 
-    const response = await axios.put(
+    const response = await axios.delete(
       `${backendURL}api/equipment/${equipmentID}`,
       config,
     );
+    console.log(response)
     return { data: response.data, status: response.status };
   } catch (error) {
     console.log('changePassword error', error);
